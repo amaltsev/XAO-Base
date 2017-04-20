@@ -1,8 +1,8 @@
-package testcases::XAOBase;
+package testcases::Base::XAOBase;
 use strict;
 use XAO::Utils;
 
-use base qw(testcases::base);
+use base qw(testcases::Base::base);
 
 ###############################################################################
 

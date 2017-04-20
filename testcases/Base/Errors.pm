@@ -1,7 +1,7 @@
-package testcases::Errors;
+package testcases::Base::Errors;
 use strict;
 use Error qw(:try);
-use base qw(testcases::base);
+use base qw(testcases::Base::base);
 
 sub test_everything {
     my $self=shift;

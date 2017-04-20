@@ -1,7 +1,7 @@
-package testcases::Utils;
+package testcases::Base::Utils;
 use strict;
 
-use base qw(testcases::base);
+use base qw(testcases::Base::base);
 
 sub test_utils_unicode_transparency {
     my $self=shift;

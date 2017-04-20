@@ -1,8 +1,8 @@
-package testcases::SimpleHash;
+package testcases::Base::SimpleHash;
 use strict;
 use XAO::SimpleHash;
 
-use base qw(testcases::base);
+use base qw(testcases::Base::base);
 
 sub test_everything {
     my $self=shift;

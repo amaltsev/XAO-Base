@@ -1,4 +1,4 @@
-package testcases::base;
+package testcases::Base::base;
 use strict;
 use XAO::Base;
 

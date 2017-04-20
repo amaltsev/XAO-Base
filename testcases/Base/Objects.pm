@@ -1,10 +1,10 @@
-package testcases::Objects;
+package testcases::Base::Objects;
 use strict;
 use XAO::SimpleHash;
 use XAO::Utils;
 use Error qw(:try);
 
-use base qw(testcases::base);
+use base qw(testcases::Base::base);
 
 ###############################################################################
 

@@ -68,11 +68,9 @@ EOT
     #
     if(!$homedir) {
         my @dirs=qw(/opt/xao /usr/local/xao);
-        if($ENV{'HOME'}) {
-            unshift(@dirs,$ENV{'HOME'}.'/perl5/xao',$ENV{'HOME'}.'/xao');
-        }
-        my @dd=grep { -d $_ } @dirs;
-        $homedir=$dd[0] || $dirs[0];
+        my @dirh=$ENV{'HOME'} ? ($ENV{'HOME'}.'/perl5/xao',$ENV{'HOME'}.'/xao') : ();
+        my @d=grep { -d $_ } @dirh,@dirs;
+        $homedir=$d[0] || $dirs[0];
     }
 
     if($ENV{'PERL_MM_USE_DEFAULT'}) {
@@ -166,7 +164,7 @@ README: Base.pm
 	pod2text Base.pm > README
 
 install::
-	[ -d $homedir ] || mkdir $homedir && chmod 755 $homedir
+	[ -d $homedir ] || mkdir -p $homedir && chmod 755 $homedir
 
 EOT
 }

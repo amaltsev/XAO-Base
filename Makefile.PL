@@ -56,33 +56,55 @@ directory.
 EOT
         }
     }
-    $homedir='/usr/local/xao' unless $homedir;
-    print <<EOT;
-XAO::Base needs a directory for project specific configuration values,
-objects, templates etc.$notes
 
-EOT
-    print "Directory name ? [$homedir] ";
-    (my $hd=<STDIN>) =~ s/[\s\n\r]//sg;
-    $hd=~s/^\s*(.*?)\s*$/$1/;
-    $hd=~s/^~\//$ENV{HOME}\//;
-    if($hd && substr($hd,0,1) ne '/') {
-        print "\nBad path ($hd)!\n\n";
-        next;
+    # Externally set variable
+    #
+    if(!$homedir) {
+        $homedir=$ENV{'XAO_BASE_DIRECTORY'};
     }
-    $homedir=$hd if $hd;
 
-    print <<EOT;
+    # In cpanm/Carton/docker it's easier to pre-create a directory as a
+    # hint.
+    #
+    if(!$homedir) {
+        my @dirs=qw(/opt/xao /usr/local/xao);
+        if($ENV{'HOME'}) {
+            unshift(@dirs,$ENV{'HOME'}.'/perl5/xao',$ENV{'HOME'}.'/xao');
+        }
+        my @dd=grep { -d $_ } @dirs;
+        $homedir=$dd[0] || $dirs[0];
+    }
+
+    if($ENV{'PERL_MM_USE_DEFAULT'}) {
+        last;
+    }
+    else {
+        print <<EOT;
+XAO::Base needs a directory for project specific configuration values,
+objects, templates etc.
+$notes
+EOT
+        my $hd=prompt('Directory name ?',$homedir);
+        $hd=~s/^\s*(.*?)\s*$/$1/;
+        $hd=~s/^~\//$ENV{HOME}\//;
+        if($hd && substr($hd,0,1) ne '/') {
+            print "\nBad path ($hd)!\n\n";
+            next;
+        }
+        $homedir=$hd if $hd;
+
+        print <<EOT;
 
 The following directory structure will be used:
-$homedir/handlers  - web server handlers
-$homedir/projects  - projects root directory
-$homedir/templates - default templates
+
+    $homedir/handlers  - web server handlers
+    $homedir/projects  - projects root directory
+    $homedir/templates - default templates
 
 EOT
-    print "Is that OK? [Y/n] ";
-    (my $answer=<STDIN>) =~ s/[\s\r\n]//sg;
-    last unless lc(substr($answer,0,1)) eq 'n';
+        my $answer=prompt('Is that OK?','y');
+        last if lc(substr($answer,0,1)) eq 'y';
+    }
 }
 
 if(!$config_version || $config_version ne $version) {
@@ -93,7 +115,6 @@ if(!$config_version || $config_version ne $version) {
     print "\nConfiguration saved into .config\n\n";
 }
 
-##
 # This rather stupid workaround is here because for some reason
 # MakeMaker excludes /Config/ files from MAN3PODS
 #
@@ -120,7 +141,7 @@ foreach my $n (keys %{ExtUtils::Manifest::maniread()}) {
 
 WriteMakefile(
     'NAME'          => 'XAO::Base',
-    'AUTHOR'        => 'Andrew Maltsev, http://ejelta.com/xao/',
+    'AUTHOR'        => 'Andrew Maltsev, https://ejelta.com/xao/',
     'ABSTRACT'      => 'Base support modules for the XAO Suite',
     'VERSION_FROM'  => 'Base.pm',
     'PREREQ_PM'     => {

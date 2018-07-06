@@ -1,11 +1,12 @@
-package testcases::Base::Projects;
+package testcases::Projects;
+use warnings;
 use strict;
 use XAO::SimpleHash;
 use XAO::Utils;
 use Error qw(:try);
 use XAO::Errors qw(XAO::Projects);
 
-use base qw(testcases::Base::base);
+use base qw(testcases::base);
 
 sub test_everything {
     my $self=shift;

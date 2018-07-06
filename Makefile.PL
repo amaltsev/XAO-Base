@@ -143,28 +143,33 @@ WriteMakefile(
     'ABSTRACT'      => 'Base support modules for the XAO Suite',
     'VERSION_FROM'  => 'Base.pm',
     'PREREQ_PM'     => {
-        'Error'         => '0.13',
-        'Test::Unit'    => '0.26',
-        'Clone'         => '0.34',
-        'Storable'      => '2.39',
+        'Error'             => '0.13',
+        'Clone'             => '0.34',
+        'Storable'          => '2.39',
     },
     'PL_FILES'      => {
-        'BaseConfig.PL' => '$(INST_LIB)/XAO/BaseConfig.pm',
+        'BaseConfig.PL'     => '$(INST_LIB)/XAO/BaseConfig.pm',
+    },
+    TEST_REQUIRES   => {
+        'Test::Harness'     => '3.35',
+        'Test::Unit::Lite'  => '0.1202',
     },
     'MAN3PODS'      => \%man3pods,
-    'MIN_PERL_VERSION'  => '5.10.0',
+    'MIN_PERL_VERSION'  => '5.10.1',
 );
 
 sub MY::postamble
 { <<EOT;
 
-config::	README
+config:: README
 
 README: Base.pm
-	pod2text Base.pm > README
+\tpod2text Base.pm > README
 
 install::
-	[ -d $homedir ] || mkdir -p $homedir && chmod 755 $homedir
+\t[ -d $homedir ] || mkdir -p $homedir && chmod 755 $homedir
 
+clean::
+\trm -f t/*.pl t/*.xt
 EOT
 }

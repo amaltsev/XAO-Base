@@ -1,4 +1,4 @@
-package testcases::Base::DOConfig;
+package testcases::DOConfig;
 use strict;
 use XAO::Utils;
 use XAO::SimpleHash;
@@ -6,7 +6,7 @@ use XAO::Projects;
 use XAO::Objects;
 use Error qw(:try);
 
-use base qw(testcases::Base::base);
+use base qw(testcases::base);
 
 sub test_base {
     my $self=shift;

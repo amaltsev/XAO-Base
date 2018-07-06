@@ -1,8 +1,9 @@
-package testcases::Base::XAOBase;
+package testcases::XAOBase;
+use warnings;
 use strict;
 use XAO::Utils;
 
-use base qw(testcases::Base::base);
+use base qw(testcases::base);
 
 ###############################################################################
 
@@ -33,10 +34,10 @@ sub test_import {
     use XAO::Base qw($homedir $projectsdir);
 
     $self->assert(defined $homedir,
-                  "Imported homedir is not defined");
+        "Imported homedir is not defined");
 
-    $self->assert(($homedir =~ /testcases\/testroot/) ? 1 : 0,
-                  "Imported homedir is wrong");
+    $self->assert(($homedir =~ /\/t\/xao/) ? 1 : 0,
+        "Expected t/xao homedir, got $homedir");
 }
 
 ###############################################################################

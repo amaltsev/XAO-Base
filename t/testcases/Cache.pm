@@ -1,4 +1,4 @@
-package testcases::Base::Cache;
+package testcases::Cache;
 use strict;
 use XAO::SimpleHash;
 use XAO::Utils;
@@ -6,7 +6,7 @@ use XAO::Objects;
 use XAO::Projects;
 use XAO::Cache;
 
-use base qw(testcases::Base::base);
+use base qw(testcases::base);
 
 ###############################################################################
 

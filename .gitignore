@@ -1,6 +1,9 @@
 .config
 blib
 Makefile
+Makefile.old
 pm_to_blib
 ta
-META.yml
+MYMETA.*
+t/*.xt
+t/*.pl

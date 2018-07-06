@@ -143,9 +143,16 @@ WriteMakefile(
     'ABSTRACT'      => 'Base support modules for the XAO Suite',
     'VERSION_FROM'  => 'Base.pm',
     'PREREQ_PM'     => {
-        'Error'             => '0.13',
-        'Clone'             => '0.34',
-        'Storable'          => '2.39',
+        'Clone'             => 0.39,
+        'Digest::SHA'       => 5.96,
+        'Encode'            => 2.93,
+        'Error'             => 0.17,
+        'File::Basename'    => 2.85,
+        'File::Copy'        => 2.30,
+        'File::Find'        => 1.29,
+        'File::Path'        => 2.09,
+        'JSON'              => 2.94,
+        'Storable'          => 2.53,
     },
     'PL_FILES'      => {
         'BaseConfig.PL'     => '$(INST_LIB)/XAO/BaseConfig.pm',
@@ -161,10 +168,13 @@ WriteMakefile(
 sub MY::postamble
 { <<EOT;
 
-config:: README
+config:: README CHANGES
 
 README: Base.pm
 \tpod2text Base.pm > README
+
+CHANGES: Base.pm
+\tgit log -n 10 --no-color > \$@
 
 install::
 \t[ -d $homedir ] || mkdir -p $homedir && chmod 755 $homedir

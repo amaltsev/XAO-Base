@@ -98,7 +98,15 @@ sub xao_test_all (;$@) {
     # More common is to have tests in t/testcases directory
     #
     if(-d 't/testcases') {
-        $diradd->('t/testcases','testcases::');
+        find({
+            no_chdir    => 1,
+            wanted      => sub {
+                return unless -d $File::Find::name;
+                (my $cp=$File::Find::name)=~s|/|::|g;
+                $cp=~s/^t:://;
+                $diradd->($File::Find::name,$cp.'::');
+            },
+        },'t/testcases');
     }
 
     # Randomizing tests list order to make sure that tests do not depend on

@@ -1,6 +1,7 @@
 .config
 blib
 Makefile
+CHANGES
 Makefile.old
 pm_to_blib
 ta

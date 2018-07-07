@@ -168,13 +168,14 @@ WriteMakefile(
 sub MY::postamble
 { <<EOT;
 
-config:: README CHANGES
+config:: README
+\t@(echo "https://github.com/amaltsev/XAO-Base";\\
+\t\techo "------------------------------------";\\
+\t\techo "";\\
+\t\tgit log -n 10 --no-color) > CHANGES
 
 README: Base.pm
 \tpod2text Base.pm > README
-
-CHANGES: Base.pm
-\tgit log -n 10 --no-color > \$@
 
 install::
 \t[ -d $homedir ] || mkdir -p $homedir && chmod 755 $homedir

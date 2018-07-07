@@ -113,30 +113,6 @@ if(!$config_version || $config_version ne $version) {
     print "\nConfiguration saved into .config\n\n";
 }
 
-# This rather stupid workaround is here because for some reason
-# MakeMaker excludes /Config/ files from MAN3PODS
-#
-my %man3pods;
-foreach my $n (keys %{ExtUtils::Manifest::maniread()}) {
-    next unless $n =~ '^(\w+)\.(pm|pod)$' ||
-                $n =~ '^lib/XAO/(.*)\.(pm|pod)$';
-    my $man=$1;
-    $man=~s/\/+/::/g;
-    $man='XAO::' . $man;
-
-    open(F,$n) || die "Can't read $n: $!";
-    my $pod=0;
-    while(<F>) {
-        if(/^=(\w+)/) {
-            $pod=1;
-            last;
-        }
-    }
-    $pod || die "$n ($man) does not have documentation";
-
-    $man3pods{$n}='$(INST_MAN3DIR)/' . $man . '.3';
-}
-
 WriteMakefile(
     'NAME'          => 'XAO::Base',
     'AUTHOR'        => 'Andrew Maltsev, https://ejelta.com/xao/',
@@ -158,7 +134,6 @@ WriteMakefile(
         'Test::Harness'     => '3.35',
         'Test::Unit::Lite'  => '0.1202',
     },
-    'MAN3PODS'      => \%man3pods,
     'MIN_PERL_VERSION'  => '5.10.1',
 );
 

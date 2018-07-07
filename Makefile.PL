@@ -140,11 +140,15 @@ WriteMakefile(
 sub MY::postamble
 { <<EOT;
 
-config:: README
-\t@(echo "https://github.com/amaltsev/XAO-Base";\\
+all::
+\t\@if [ -d .git ]; then (\\
+\t\techo "https://github.com/amaltsev/XAO-Base";\\
 \t\techo "------------------------------------";\\
 \t\techo "";\\
-\t\tgit log -n 10 --no-color) > CHANGES
+\t\tgit log -n 10 --no-color 2>/dev/null;\\
+\t\techo "") > CHANGES; fi
+
+config:: README
 
 README: Base.pm
 \tpod2text Base.pm > README

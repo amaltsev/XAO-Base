@@ -14,7 +14,6 @@ sub test_everything {
 
     use XAO::Objects;
 
-    ##
     # Loading `test' project Config
     #
     my $obj=XAO::Objects->new(objname => 'Config',
@@ -190,6 +189,16 @@ sub test_include {
             coderef => sub { return shift->method() },
             expect  => 'XX<no-arg>XX',
         },
+        t10a => {        # A level deeper
+            objname => 'Sub::Level',
+            coderef => sub { return shift->method_lib('t10a') },
+            expect  => 'testuse:testlib-Sub-Level:lib:t10a',
+        },
+        t10b => {        # A level deeper
+            objname => 'Sub::Level',
+            coderef => sub { return shift->method_use('t10b') },
+            expect  => 'testuse:testuse-Sub-Level:use:t10b',
+        },
     );
 
     foreach my $tname (sort keys %tests) {
@@ -215,6 +224,11 @@ sub test_include {
 
         $self->assert($obj && ref($obj),
             "Expected '$test->{'objname'}' object for test '$tname', got error: $etext");
+
+        if($test->{'objname'} ne 'Test1') {
+            $self->assert($obj->objname eq $test->{'objname'},
+                "Expected objname() to be '$test->{'objname'}', got '".$obj->objname."' for test '$tname'");
+        }
 
         if($test->{'codeerr'}) {
             $self->assert(!defined $got,
